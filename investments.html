@@ -327,7 +327,8 @@
 
         function logout() {
             alert('Logged out successfully'); // Alert message
-            window.location.href = 'login.html'; // Redirect to the login page
+            window.location.href = 'login.html';
+            sessionStorage.removeItem("username");// Redirect to the login page
         }
     </script>
 </body>
