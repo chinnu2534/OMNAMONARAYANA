@@ -206,7 +206,7 @@
             <div class="additional-cards">
                 <div class="additional-card">
                     <h3 class="card-heading">Share Name</h3>
-                    <p class="card-data">KAYCEE INDUSTRIES</p>
+                    <p class="card-data" id="shareNameDisplay">KAYCEE INDUSTRIES</p>
                 </div>
                 <div class="additional-card">
                     <h3 class="card-heading">Quantity</h3>
@@ -247,6 +247,7 @@
             <button class="logout-button" onclick="logout()">Logout</button>
         </div>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const dropdown = document.getElementById('investmentDropdown');
@@ -272,7 +273,8 @@
                 }
             };
 
-            const user = 'abhinav'; // Example user, can be changed
+            // Fetch the username from localStorage
+            const user = localStorage.getItem('username') || 'abhinav'; // Default to 'abhinav' if not found
             const selectedData = data[user] || {
                 quantities: { 'KITE': 0, 'GROWW': 0 },
                 boughtPrices: { 'KITE': 0, 'GROWW': 0 },
@@ -327,9 +329,9 @@
 
         function logout() {
             alert('Logged out successfully'); // Alert message
-            ocalStorage.removeItem("username");
-            window.location.href = 'login.html';
-            sessionStorage.removeItem("username");// Redirect to the login page
+            localStorage.removeItem("username"); // Clear the username
+            sessionStorage.removeItem("username"); // Clear the username in sessionStorage
+            window.location.href = 'login.html'; // Redirect to the login page
         }
     </script>
 </body>
