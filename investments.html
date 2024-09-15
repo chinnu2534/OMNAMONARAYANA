@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investments Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #a8c0ff, #fbc2eb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .main-container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .investments-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            max-width: 600px;
+            backdrop-filter: blur(10px);
+        }
+
+        .notice-board {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            position: sticky;
+            top: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+            color: #333;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, select:focus {
+            border-color: #007bff;
+            background-color: #fff;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .profit {
+            color: green;
+            display: none; /* Hide initially */
+        }
+
+        .logout-button {
+            width: 30%;
+            padding: 12px 20px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logout-button:hover {
+            background-color: #c82333;
+        }
+
+        .title-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .title-container h2 {
+            margin: 0;
+            color: #333;
+            font-size: 24px;
+        }
+
+        .notice-board h3 {
+            margin-top: 0;
+            color: #007bff;
+            font-size: 18px;
+        }
+
+        .notice-board p {
+            margin: 10px 0;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .notice-board span {
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #007bff;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="investments-container">
+            <div class="title-container">
+                <h2>Investments Page</h2>
+                <button class="logout-button" onclick="logout()">Logout</button>
+            </div>
+            <form id="investmentsForm">
+                <div class="form-group">
+                    <label for="platform">Platform:</label>
+                    <select id="platform" name="platform" onchange="updateFields()">
+                        <option value="GROWW">GROWW</option>
+                        <option value="KITE">KITE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="shareName">Share Name:</label>
+                    <input type="text" id="shareName" name="shareName" value="KAYCEE INDUSTRIES" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="boughtPrice">Bought Price:</label>
+                    <input type="number" id="boughtPrice" name="boughtPrice" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="investedValue">Invested Value:</label>
+                    <input type="number" id="investedValue" name="investedValue" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="currentPrice">Current Price:</label>
+                    <input type="number" id="currentPrice" name="currentPrice" oninput="updateProfit()">
+                </div>
+                <div class="form-group">
+                    <label for="combinedQuantity">Combined Quantity:</label>
+                    <input type="number" id="combinedQuantity" name="combinedQuantity" readonly>
+                </div>
+            </form>
+        </div>
+
+        <div class="notice-board">
+            <h3>Notice Board</h3>
+            <p><strong>Available Funds:</strong> <span id="availableFunds">-</span></p>
+            <p id="profitGrowwText" class="profit-text"><strong>Profit (GROWW):</strong> <span id="profitGroww" class="profit">-</span></p>
+            <p id="profitKiteText" class="profit-text"><strong>Profit (KITE):</strong> <span id="profitKite" class="profit">-</span></p>
+        </div>
+    </div>
+
+    <script>
+        function updateFields() {
+            var platform = document.getElementById('platform').value;
+            var quantity = document.getElementById('quantity');
+            var boughtPrice = document.getElementById('boughtPrice');
+            var investedValue = document.getElementById('investedValue');
+            var combinedQuantity = document.getElementById('combinedQuantity');
+            var availableFunds = document.getElementById('availableFunds');
+            var profitGroww = document.getElementById('profitGroww');
+            var profitKite = document.getElementById('profitKite');
+            var profitGrowwText = document.getElementById('profitGrowwText');
+            var profitKiteText = document.getElementById('profitKiteText');
+
+            // Set static values
+            quantity.value = platform === 'GROWW' ? 72 : 129;
+            boughtPrice.value = platform === 'GROWW' ? 3000 : 3355;
+            investedValue.value = platform === 'GROWW' ? 237854 : 432568;
+            
+            // Update combined quantity and available funds
+            var kiteQuantity = platform === 'KITE' ? 129 : 0;
+            var growwQuantity = platform === 'GROWW' ? 72 : 0;
+            combinedQuantity.value = kiteQuantity + growwQuantity;
+            availableFunds.innerText = (kiteQuantity * 3355) + (growwQuantity * 3000); // Example calculation
+
+            // Show relevant profit sections
+            profitGrowwText.style.display = platform === 'GROWW' ? 'block' : 'none';
+            profitKiteText.style.display = platform === 'KITE' ? 'block' : 'none';
+
+            // Hide profit text if not relevant
+            profitGroww.style.display = platform === 'GROWW' ? 'block' : 'none';
+            profitKite.style.display = platform === 'KITE' ? 'block' : 'none';
+        }
+
+        function calculateProfit(quantity, currentPrice, investedValue) {
+            return (quantity * currentPrice) - investedValue;
+        }
+
+        function updateProfit() {
+            var platform = document.getElementById('platform').value;
+            var quantity = platform === 'GROWW' ? 72 : 129;
+            var boughtPrice = platform === 'GROWW' ? 3000 : 3355;
+            var investedValue = platform === 'GROWW' ? 237854 : 432568;
+
+            var currentPrice = parseFloat(document.getElementById('currentPrice').value);
+            if (isNaN(currentPrice)) return;
+
+            var profit = calculateProfit(quantity, currentPrice, investedValue);
+
+            var profitGroww = document.getElementById('profitGroww');
+            var profitKite = document.getElementById('profitKite');
+
+            if (platform === 'GROWW') {
+                profitGroww.innerText = profit.toFixed(2);
+                profitGroww.style.display = 'block';
+            } else if (platform === 'KITE') {
+                profitKite.innerText = profit.toFixed(2);
+                profitKite.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            // Logout logic
+            alert('You have logged out.');
+		window.location.href = 'login.html';
+        }
+
+        // Initialize fields on load
+        window.onload = function() {
+            updateFields();
+        };
+    </script>
+</body>
+</html>
