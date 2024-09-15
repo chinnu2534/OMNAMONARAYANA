@@ -327,6 +327,7 @@
 
         function logout() {
             alert('Logged out successfully'); // Alert message
+            ocalStorage.removeItem("username");
             window.location.href = 'login.html';
             sessionStorage.removeItem("username");// Redirect to the login page
         }
