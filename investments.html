@@ -206,7 +206,7 @@
             <div class="additional-cards">
                 <div class="additional-card">
                     <h3 class="card-heading">Share Name</h3>
-                    <p class="card-data" id="shareNameDisplay">KAYCEE INDUSTRIES</p>
+                    <p class="card-data">KAYCEE INDUSTRIES</p>
                 </div>
                 <div class="additional-card">
                     <h3 class="card-heading">Quantity</h3>
@@ -247,92 +247,91 @@
             <button class="logout-button" onclick="logout()">Logout</button>
         </div>
     </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const dropdown = document.getElementById('investmentDropdown');
-            const currentPriceInput = document.getElementById('currentPriceInput');
-            const quantityDisplay = document.getElementById('quantityDisplay');
-            const boughtPriceDisplay = document.getElementById('boughtPriceDisplay');
-            const investedValueDisplay = document.getElementById('investedValueDisplay');
-            const kiteProfitDisplay = document.getElementById('kiteProfitDisplay');
-            const growwProfitDisplay = document.getElementById('growwProfitDisplay');
-            const combinedProfitDisplay = document.getElementById('combinedProfitDisplay');
-            const combinedQuantityDisplay = document.getElementById('combinedQuantityDisplay');
+    const dropdown = document.getElementById('investmentDropdown');
+    const currentPriceInput = document.getElementById('currentPriceInput');
+    const quantityDisplay = document.getElementById('quantityDisplay');
+    const boughtPriceDisplay = document.getElementById('boughtPriceDisplay');
+    const investedValueDisplay = document.getElementById('investedValueDisplay');
+    const kiteProfitDisplay = document.getElementById('kiteProfitDisplay');
+    const growwProfitDisplay = document.getElementById('growwProfitDisplay');
+    const combinedProfitDisplay = document.getElementById('combinedProfitDisplay');
+    const combinedQuantityDisplay = document.getElementById('combinedQuantityDisplay');
 
-            const data = {
-                'abhinav': {
-                    quantities: { 'KITE': 129, 'GROWW': 72 },
-                    boughtPrices: { 'KITE': 3355, 'GROWW': 3294 },
-                    investedValues: { 'KITE': 432795, 'GROWW': 237168 }
-                },
-                'manogna': {
-                    quantities: { 'KITE': 70, 'GROWW': 0 },
-                    boughtPrices: { 'KITE': 3355, 'GROWW': 0 },
-                    investedValues: { 'KITE': 234850, 'GROWW': 0 }
-                }
-            };
-
-            // Fetch the username from localStorage
-            const user = localStorage.getItem('username') || 'abhinav'; // Default to 'abhinav' if not found
-            const selectedData = data[user] || {
-                quantities: { 'KITE': 0, 'GROWW': 0 },
-                boughtPrices: { 'KITE': 0, 'GROWW': 0 },
-                investedValues: { 'KITE': 0, 'GROWW': 0 }
-            };
-
-            function updateValues() {
-                const selectedValue = dropdown.value;
-                const currentPrice = parseFloat(currentPriceInput.value);
-
-                // Update display values based on selection
-                quantityDisplay.textContent = selectedData.quantities[selectedValue];
-                boughtPriceDisplay.textContent = selectedData.boughtPrices[selectedValue];
-                investedValueDisplay.textContent = selectedData.investedValues[selectedValue];
-
-                const quantity = selectedData.quantities[selectedValue];
-                const boughtPrice = selectedData.boughtPrices[selectedValue];
-                
-                let profit = 0;
-                if (!isNaN(currentPrice) && currentPrice > 0) {
-                    profit = (currentPrice - boughtPrice) * quantity;
-                }
-
-                const formattedProfit = profit.toFixed(2);
-
-                if (selectedValue === 'KITE') {
-                    kiteProfitDisplay.textContent = formattedProfit;
-                    growwProfitDisplay.textContent = '0';
-                } else if (selectedValue === 'GROWW') {
-                    growwProfitDisplay.textContent = formattedProfit;
-                    kiteProfitDisplay.textContent = '0';
-                }
-
-                const totalKiteProfit = (currentPrice - selectedData.boughtPrices['KITE']) * selectedData.quantities['KITE'];
-                const totalGrowwProfit = (currentPrice - selectedData.boughtPrices['GROWW']) * selectedData.quantities['GROWW'];
-                const totalCombinedProfit = totalKiteProfit + totalGrowwProfit;
-
-                const formattedTotalKiteProfit = totalKiteProfit.toFixed(2);
-                const formattedTotalGrowwProfit = totalGrowwProfit.toFixed(2);
-
-                combinedProfitDisplay.textContent = `${totalCombinedProfit.toFixed(2)} (${formattedTotalKiteProfit} + ${formattedTotalGrowwProfit})`;
-
-                // Update combined quantity
-                combinedQuantityDisplay.textContent = selectedData.quantities['KITE'] + selectedData.quantities['GROWW'];
-            }
-
-            dropdown.addEventListener('change', updateValues);
-            currentPriceInput.addEventListener('input', updateValues);
-
-            updateValues(); // Initialize values on page load
-        });
-
-        function logout() {
-            alert('Logged out successfully'); // Alert message
-            localStorage.removeItem("username"); // Clear the username
-            sessionStorage.removeItem("username"); // Clear the username in sessionStorage
-            window.location.href = 'login.html'; // Redirect to the login page
+    const data = {
+        'abhinav': {
+            quantities: { 'KITE': 129, 'GROWW': 72 },
+            boughtPrices: { 'KITE': 3300, 'GROWW': 3250 },
+            investedValues: { 'KITE': 430000, 'GROWW': 237000 }
+        },
+        'manogna': {
+            quantities: { 'KITE': 72, 'GROWW': 0 },
+            boughtPrices: { 'KITE': 3500, 'GROWW': 3500 },
+            investedValues: { 'KITE': 239000, 'GROWW': 0 }
         }
+    };
+
+    // Retrieve the username from local storage
+    const user = localStorage.getItem('username') || 'abhinav'; // Default to 'abhinav' if not found
+    const selectedData = data[user] || {
+        quantities: { 'KITE': 0, 'GROWW': 0 },
+        boughtPrices: { 'KITE': 0, 'GROWW': 0 },
+        investedValues: { 'KITE': 0, 'GROWW': 0 }
+    };
+
+    function updateValues() {
+        const selectedValue = dropdown.value;
+        const currentPrice = parseFloat(currentPriceInput.value);
+
+        // Update display values based on selection
+        quantityDisplay.textContent = selectedData.quantities[selectedValue];
+        boughtPriceDisplay.textContent = selectedData.boughtPrices[selectedValue];
+        investedValueDisplay.textContent = selectedData.investedValues[selectedValue];
+
+        const quantity = selectedData.quantities[selectedValue];
+        const boughtPrice = selectedData.boughtPrices[selectedValue];
+        
+        let profit = 0;
+        if (!isNaN(currentPrice) && currentPrice > 0) {
+            profit = (currentPrice - boughtPrice) * quantity;
+        }
+
+        const formattedProfit = profit.toFixed(2);
+
+        if (selectedValue === 'KITE') {
+            kiteProfitDisplay.textContent = formattedProfit;
+            growwProfitDisplay.textContent = '0';
+        } else if (selectedValue === 'GROWW') {
+            growwProfitDisplay.textContent = formattedProfit;
+            kiteProfitDisplay.textContent = '0';
+        }
+
+        const totalKiteProfit = (currentPrice - selectedData.boughtPrices['KITE']) * selectedData.quantities['KITE'];
+        const totalGrowwProfit = (currentPrice - selectedData.boughtPrices['GROWW']) * selectedData.quantities['GROWW'];
+        const totalCombinedProfit = totalKiteProfit + totalGrowwProfit;
+
+        const formattedTotalKiteProfit = totalKiteProfit.toFixed(2);
+        const formattedTotalGrowwProfit = totalGrowwProfit.toFixed(2);
+
+        combinedProfitDisplay.textContent = `${totalCombinedProfit.toFixed(2)} (${formattedTotalKiteProfit} + ${formattedTotalGrowwProfit})`;
+
+        // Update combined quantity
+        combinedQuantityDisplay.textContent = selectedData.quantities['KITE'] + selectedData.quantities['GROWW'];
+    }
+
+    dropdown.addEventListener('change', updateValues);
+    currentPriceInput.addEventListener('input', updateValues);
+
+    updateValues(); // Initialize values on page load
+});
+
+function logout() {
+    alert('Logged out successfully'); // Alert message
+    localStorage.removeItem('username'); // Clear username from local storage
+    window.location.href = 'login.html'; // Redirect to the login page
+}
+
     </script>
 </body>
 </html>
