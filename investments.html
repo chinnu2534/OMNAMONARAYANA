@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investments</title>
+    <style>
+        /* Your CSS code */
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .scrolling-text {
+            width: 100%;
+            background-color: transparent; /* Transparent background */
+            color: black; /* Black text color */
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Ensure it stays on top */
+        }
+
+        .scrolling-text span {
+            display: inline-block;
+            white-space: nowrap;
+            padding: 0 2rem; /* Adds space around the text */
+            font-size: 1.5rem;
+            animation: scroll-left 10s linear infinite;
+        }
+
+        @keyframes scroll-left {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+        .background-container {
+            background-image: url('https://img.freepik.com/free-vector/winter-light-blue-gradient-vector-background_53876-126054.jpg?auto=format&fit=crop&w=315&h=220');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            padding: 60px 20px 20px; /* Added padding for scrolling text */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .card-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.5); /* Transparent background */
+            border: none; /* Remove border */
+            border-radius: 12px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h2, .card h3 {
+            margin-top: 0;
+            color: #000; /* Black color for headings */
+        }
+
+        #investmentDropdown {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #1e88e5;
+            border-radius: 6px;
+            box-sizing: border-box;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .additional-cards, .combined-cards {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .additional-card, .profit-card, .invested-value-card, .combined-card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.5); /* Transparent background */
+            border: none; /* Remove border */
+            border-radius: 12px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .additional-card:hover, .profit-card:hover, .invested-value-card:hover, .combined-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .additional-card h3, .profit-card h3, .invested-value-card h3, .combined-card h3 {
+            margin: 0;
+            color: #000; /* Black color for card headings */
+        }
+
+        .additional-card input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #1e88e5;
+            border-radius: 6px;
+            box-sizing: border-box;
+            margin-top: 10px;
+            background-color: #ffffff;
+        }
+
+        .combined-cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .combined-cards > div {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .card-data {
+            font-size: 1.2em;
+            margin: 10px 0;
+            color: #333; /* Dark color for card data */
+        }
+
+        .profit {
+            color: green; /* Green color for profit */
+            font-weight: bold; /* Bold font for profit */
+        }
+
+        .combined-card .combined-profit {
+            font-size: 0.9em; /* Adjust the size as needed */
+        }
+
+        /* Styles for logout button */
+        .logout-button {
+            background-color: #ff4d4d; /* Red background for logout button */
+            color: white; /* White text color */
+            border: none;
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            z-index: 1001; /* Ensure it stays on top */
+        }
+
+        .logout-button:hover {
+            background-color: #cc0000; /* Darker red on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="scrolling-text">
+        <span>OM NAMO NARAYANA</span>
+    </div>
+    <div class="background-container">
+        <div class="container">
+            <div class="card-container">
+                <div class="card">
+                    <h2>Select an Investment</h2>
+                    <select id="investmentDropdown">
+                        <option value="KITE">KITE</option>
+                        <option value="GROWW">GROWW</option>
+                    </select>
+                </div>
+            </div>
+            <div class="additional-cards">
+                <div class="additional-card">
+                    <h3 class="card-heading">Share Name</h3>
+                    <p class="card-data">KAYCEE INDUSTRIES</p>
+                </div>
+                <div class="additional-card">
+                    <h3 class="card-heading">Quantity</h3>
+                    <p class="card-data" id="quantityDisplay">72</p> <!-- Placeholder text that will be updated -->
+                </div>
+                <div class="additional-card">
+                    <h3 class="card-heading">Bought Price</h3>
+                    <p class="card-data" id="boughtPriceDisplay">3300</p> <!-- Placeholder text that will be updated -->
+                </div>
+                <div class="additional-card">
+                    <h3 class="card-heading">Current Price</h3>
+                    <input type="number" id="currentPriceInput" placeholder="Enter current price" />
+                </div>
+            </div>
+            <div class="combined-cards">
+                <div class="invested-value-card">
+                    <h3 class="card-heading">Invested Value</h3>
+                    <p class="card-data" id="investedValueDisplay">430000</p> <!-- No profit class -->
+                </div>
+                <div class="combined-card">
+                    <h3 class="card-heading">Combined Quantity</h3>
+                    <p class="card-data" id="combinedQuantityDisplay">129</p> <!-- No profit class -->
+                </div>
+                <div class="combined-card">
+                    <h3 class="card-heading">KITE Profit</h3>
+                    <p class="card-data profit" id="kiteProfitDisplay">0</p> <!-- Profit class applied -->
+                </div>
+                <div class="combined-card">
+                    <h3 class="card-heading">GROWW Profit</h3>
+                    <p class="card-data profit" id="growwProfitDisplay">0</p> <!-- Profit class applied -->
+                </div>
+                <div class="combined-card">
+                    <h3 class="card-heading">Combined Profit</h3>
+                    <p class="card-data combined-profit profit" id="combinedProfitDisplay">0 (0 + 0)</p> <!-- Profit class applied -->
+                </div>
+            </div>
+            <!-- Logout button -->
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdown = document.getElementById('investmentDropdown');
+            const currentPriceInput = document.getElementById('currentPriceInput');
+            const quantityDisplay = document.getElementById('quantityDisplay');
+            const boughtPriceDisplay = document.getElementById('boughtPriceDisplay');
+            const investedValueDisplay = document.getElementById('investedValueDisplay');
+            const kiteProfitDisplay = document.getElementById('kiteProfitDisplay');
+            const growwProfitDisplay = document.getElementById('growwProfitDisplay');
+            const combinedProfitDisplay = document.getElementById('combinedProfitDisplay');
+            const combinedQuantityDisplay = document.getElementById('combinedQuantityDisplay');
+
+            const data = {
+                'abhinav': {
+                    quantities: { 'KITE': 129, 'GROWW': 72 },
+                    boughtPrices: { 'KITE': 3300, 'GROWW': 3250 },
+                    investedValues: { 'KITE': 430000, 'GROWW': 237000 }
+                },
+                'manogna': {
+                    quantities: { 'KITE': 72, 'GROWW': 0 },
+                    boughtPrices: { 'KITE': 3500, 'GROWW': 3500 },
+                    investedValues: { 'KITE': 239000, 'GROWW': 0 }
+                }
+            };
+
+            const user = 'abhinav'; // Example user, can be changed
+            const selectedData = data[user] || {
+                quantities: { 'KITE': 0, 'GROWW': 0 },
+                boughtPrices: { 'KITE': 0, 'GROWW': 0 },
+                investedValues: { 'KITE': 0, 'GROWW': 0 }
+            };
+
+            function updateValues() {
+                const selectedValue = dropdown.value;
+                const currentPrice = parseFloat(currentPriceInput.value);
+
+                // Update display values based on selection
+                quantityDisplay.textContent = selectedData.quantities[selectedValue];
+                boughtPriceDisplay.textContent = selectedData.boughtPrices[selectedValue];
+                investedValueDisplay.textContent = selectedData.investedValues[selectedValue];
+
+                const quantity = selectedData.quantities[selectedValue];
+                const boughtPrice = selectedData.boughtPrices[selectedValue];
+                
+                let profit = 0;
+                if (!isNaN(currentPrice) && currentPrice > 0) {
+                    profit = (currentPrice - boughtPrice) * quantity;
+                }
+
+                const formattedProfit = profit.toFixed(2);
+
+                if (selectedValue === 'KITE') {
+                    kiteProfitDisplay.textContent = formattedProfit;
+                    growwProfitDisplay.textContent = '0';
+                } else if (selectedValue === 'GROWW') {
+                    growwProfitDisplay.textContent = formattedProfit;
+                    kiteProfitDisplay.textContent = '0';
+                }
+
+                const totalKiteProfit = (currentPrice - selectedData.boughtPrices['KITE']) * selectedData.quantities['KITE'];
+                const totalGrowwProfit = (currentPrice - selectedData.boughtPrices['GROWW']) * selectedData.quantities['GROWW'];
+                const totalCombinedProfit = totalKiteProfit + totalGrowwProfit;
+
+                const formattedTotalKiteProfit = totalKiteProfit.toFixed(2);
+                const formattedTotalGrowwProfit = totalGrowwProfit.toFixed(2);
+
+                combinedProfitDisplay.textContent = `${totalCombinedProfit.toFixed(2)} (${formattedTotalKiteProfit} + ${formattedTotalGrowwProfit})`;
+
+                // Update combined quantity
+                combinedQuantityDisplay.textContent = selectedData.quantities['KITE'] + selectedData.quantities['GROWW'];
+            }
+
+            dropdown.addEventListener('change', updateValues);
+            currentPriceInput.addEventListener('input', updateValues);
+
+            updateValues(); // Initialize values on page load
+        });
+
+        function logout() {
+            alert('Logged out successfully'); // Alert message
+            window.location.href = 'login.html'; // Redirect to the login page
+        }
+    </script>
+</body>
+</html>
